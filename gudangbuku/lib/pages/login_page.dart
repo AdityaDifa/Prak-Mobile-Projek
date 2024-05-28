@@ -25,7 +25,17 @@ class _LoginPageSTFState extends State<LoginPageSTF> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+        body: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+        colors: [
+          Color.fromARGB(237, 255, 73, 73),
+          Color.fromARGB(0, 255, 255, 255)
+        ],
+      )),
+      child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +59,7 @@ class _LoginPageSTFState extends State<LoginPageSTF> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   TextStyle myTextStyle({
@@ -172,7 +182,7 @@ class _LoginPageSTFState extends State<LoginPageSTF> {
               SnackBar(content: Text('Akun $username berhasil dibuat')));
         },
         style: TextButton.styleFrom(
-          foregroundColor: Colors.red,
+          foregroundColor: Color.fromARGB(255, 255, 255, 255),
         ),
         child: const Text('Register Disini'));
   }
