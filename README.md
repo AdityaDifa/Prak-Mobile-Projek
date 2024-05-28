@@ -1,2 +1,2 @@
-# Prak-Mobile-Projek
-Tugas akhir projek prak mobile semester 6 Mei 2024
+# Aplikasi Mobile Gudang Buku
+## Aplikasi ini berfungsi untuk memantau/ memonitor buku yang ada di Gudang Buku
