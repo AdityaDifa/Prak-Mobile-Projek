@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gudangbuku/pages/halaman_utama.dart';
+import 'package:gudangbuku/pages/home_page.dart';
 import 'package:gudangbuku/sistem/account_operation.dart';
 
 class LoginPage extends StatelessWidget {
@@ -160,8 +160,8 @@ class _LoginPageSTFState extends State<LoginPageSTF> {
         onPressed: () {
           Account akun = Account(username: username, password: password);
           if (akun.authentication()) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => HalamanUtama()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Gagal Login : Cek username dan password')));
