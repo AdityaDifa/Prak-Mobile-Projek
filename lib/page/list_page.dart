@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gudangbuku/page/login_page.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'detail_page.dart';
+import 'package:gudangbuku/page/detail_page.dart';
+import 'package:gudangbuku/sistem/theme_provider.dart' as custom;
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -22,43 +24,46 @@ class _ListPageState extends State<ListPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(
-        Uri.parse('https://projek-api-tugas-prak-cc-rqransntba-et.a.run.app/books'));
+      Uri.parse('https://projek-api-tugas-prak-cc-rqransntba-et.a.run.app/books'),
+    );
     if (response.statusCode == 200) {
       setState(() {
         dataImport = json.decode(response.body);
       });
-      print(dataImport.length);
-      print(dataImport[0]['title']);
     } else {
-      throw Exception('failed to load data');
+      throw Exception('Failed to load data');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<custom.CustomThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Home Page',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
-            onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setBool('login', true);
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => LoginPage()),
-              // );
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.logout,
               color: Colors.white,
             ),
           )
         ],
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        backgroundColor: themeProvider.themeMode == custom.CustomThemeMode.red
+            ? Colors.red
+            : themeProvider.themeMode == custom.CustomThemeMode.green
+            ? Colors.green
+            : Colors.blue,
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -67,11 +72,11 @@ class _ListPageState extends State<ListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "List Buku",
               style: TextStyle(fontSize: 30),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: dataImport.length,
@@ -80,7 +85,7 @@ class _ListPageState extends State<ListPage> {
                   return ListTile(
                     title: Text(
                       data['title'] ?? '',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

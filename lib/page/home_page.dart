@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gudangbuku/page/favorite_page.dart';
+import 'package:provider/provider.dart';
 import './list_page.dart';
-import './favorite_page.dart';
+import './setting_page.dart';
+import 'package:gudangbuku/sistem/theme_provider.dart' as custom;
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -12,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget> [
+  static List<Widget> _widgetOptions = <Widget>[
     ListPage(),
     FavoritePage()
   ];
@@ -25,23 +27,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<custom.CustomThemeProvider>(context);
+
+    Color getSelectedItemColor() {
+      switch (themeProvider.themeMode) {
+        case custom.CustomThemeMode.green:
+          return Colors.green;
+        case custom.CustomThemeMode.blue:
+          return Colors.blue;
+        case custom.CustomThemeMode.red:
+        default:
+          return Colors.red;
+      }
+    }
+
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: 'Homepage'
+            icon: Icon(Icons.home_filled),
+            label: 'Homepage',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorite Page'
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red,
+        selectedItemColor: getSelectedItemColor(),
         onTap: _onItemTapped,
       ),
     );

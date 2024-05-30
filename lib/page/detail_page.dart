@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:gudangbuku/sistem/theme_provider.dart' as custom;
 
 class DetailPage extends StatelessWidget {
   final Map<String, dynamic> book;
 
-  const DetailPage({super.key, required this.book});
+  const DetailPage({Key? key, required this.book}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<custom.CustomThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +29,6 @@ class DetailPage extends StatelessWidget {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool('login', true);
-
             },
             icon: Icon(
               Icons.logout,
@@ -33,7 +36,11 @@ class DetailPage extends StatelessWidget {
             ),
           )
         ],
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        backgroundColor: themeProvider.themeMode == custom.CustomThemeMode.red
+            ? Colors.red
+            : themeProvider.themeMode == custom.CustomThemeMode.green
+            ? Colors.green
+            : Colors.blue,
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
